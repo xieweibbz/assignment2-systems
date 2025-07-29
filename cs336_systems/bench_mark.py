@@ -23,6 +23,7 @@ def bench_mark(batch_size, vocab_size, context_length, d_model, num_layers, num_
         num_heads=8,
         d_ff=2048,
         rope_theta=10000.0)
+    model.to(device)
     optimizer = cs336_basics.optimizer.AdamW(model.parameters(), lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0.01)
 
     for _ in range(warmup_steps):
@@ -63,7 +64,7 @@ def bench_mark(batch_size, vocab_size, context_length, d_model, num_layers, num_
 
 
 if __name__ == "__main__":
-    result = bench_mark(batch_size=4, vocab_size=10000, context_length=8, d_model=512, num_layers=6, num_heads=8, d_ff=2048, rope_theta=10000.0, warmup_steps=10, num_steps=10)
+    result = bench_mark(batch_size=4, vocab_size=10000, context_length=8, d_model=512, num_layers=6, num_heads=8, d_ff=2048, rope_theta=10000.0, warmup_steps=0, num_steps=10)
     print(f"Time forward taken: {result[0]} seconds")
     print(f"Time backward taken: {result[1]} seconds")
     print(f"Time optimizer step taken: {result[2]} seconds")
